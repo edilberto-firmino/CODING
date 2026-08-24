@@ -17,3 +17,17 @@ class cadastro:
         nome = input("Digite seu nome: ")
         idade = int(input("Digite sua idade: "))
         print(f"Nome: {nome}, Idade: {idade}")
+
+def area():
+    comprimento = float(input("Digite o comprimento: "))
+    largura = float(input("Digite a largura: "))
+    area = comprimento * largura
+    print(f"A área é: {area}M²")
+
+def imc():
+    peso = float(input("Digite seu peso (kg): "))
+    altura = float(input("Digite sua altura (m): "))
+    imc = peso / (altura ** 2)
+    print(f"Seu IMC é: {imc}")
+
+imc()
