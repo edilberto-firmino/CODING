@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Aula prática de Python: listas, tuplas, dicionários e conjuntos, com exemplos, exercícios e gabarito.">
+  <title>Aula prática 1 · Estruturas de dados em Python</title>
+  <style>
+    :root{--paper:#f5f4ef;--ink:#192d35;--muted:#52656b;--green:#125c50;--line:#d9dfda;--code:#142c35;--accent:#e6b34b}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:28px}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.7 system-ui,-apple-system,"Segoe UI",sans-serif}a{color:var(--green);text-underline-offset:4px}a:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:5px}.shell{max-width:1240px;margin:auto;display:grid;grid-template-columns:230px minmax(0,1fr);gap:60px;padding:40px 32px}aside{position:sticky;top:30px;align-self:start}aside .brand{font-weight:800;letter-spacing:.12em;font-size:12px;text-transform:uppercase;color:var(--green)}aside nav{display:grid;gap:7px;margin-top:28px}nav a{padding:7px 0;text-decoration:none;border-bottom:1px solid var(--line);font-size:14px}nav a:hover{text-decoration:underline}.small{font-size:14px;color:var(--muted)}main{min-width:0}header{padding:18px 0 45px;border-bottom:2px solid var(--ink)}.eyebrow{font-size:12px;font-weight:750;letter-spacing:.16em;text-transform:uppercase;color:var(--green)}h1{font-size:clamp(40px,6vw,70px);line-height:1.07;letter-spacing:-.055em;margin:22px 0}h1 span{color:var(--green)}.intro{font-size:20px;max-width:650px;color:var(--muted)}.tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:25px}.tags span{border:1px solid var(--line);border-radius:30px;padding:5px 14px;font-size:13px}section{padding:40px 0;border-bottom:1px solid var(--line)}h2{font-size:30px;line-height:1.25;letter-spacing:-.025em;margin:10px 0 20px}h3{font-size:20px;margin:26px 0 10px}p{margin:12px 0}code{font-family:Consolas,"Courier New",monospace;font-size:.92em;background:#e6ebe6;padding:2px 5px;border-radius:4px}pre{background:var(--code);color:#e8f2ed;padding:22px 24px;border-radius:10px;overflow-x:auto;line-height:1.65;font-size:14px;tab-size:4}pre code{font-size:inherit;background:none;padding:0;color:inherit}.output{background:#e7eee8;color:#254438;border-left:3px solid var(--green);border-radius:0 7px 7px 0}.note{border-left:3px solid var(--accent);background:#fff9e9;padding:14px 20px;margin:22px 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.tile{background:#fff;padding:20px;border:1px solid var(--line);border-radius:8px}.tile strong{display:block;color:var(--green)}ul,ol{padding-left:24px}li{margin:7px 0}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px}caption{text-align:left;color:var(--muted);margin-bottom:12px}th,td{text-align:left;border-bottom:1px solid var(--line);padding:12px;vertical-align:top}th{background:#e6ebe6}details{margin:18px 0;border:1px solid var(--line);border-radius:8px;padding:16px 20px;background:white}summary{cursor:pointer;font-weight:650;color:var(--green)}.step{font-size:12px;color:var(--green);font-weight:800;letter-spacing:.1em}.exercise{background:#edf1eb;padding:20px 24px;border-radius:8px;margin-top:20px}.exercise h3{margin-top:0}footer{padding:30px 0 45px;font-size:14px;color:var(--muted)}.skip{position:absolute;top:-100px;left:20px;background:#fff;padding:10px;z-index:2}.skip:focus{top:10px}@media(max-width:850px){.shell{grid-template-columns:1fr;gap:25px;padding:24px 20px}aside{position:static}aside nav{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:15px}nav a{padding:4px 0}.grid{grid-template-columns:1fr}header{padding-top:0}section{padding:30px 0}}@media print{body{font-size:11pt;background:#fff}.shell{display:block;padding:0}aside,.skip{display:none}h1{font-size:34pt}pre{white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #aaa;background:#f1f1f1;color:#111}section{break-inside:auto}h2,h3{break-after:avoid}details{display:block}details::details-content{content-visibility:visible}a{color:inherit}header{padding-bottom:15px}}
+  </style>
+</head>
+<body>
+<a class="skip" href="#conteudo">Ir para o conteúdo</a>
+<div class="shell">
+  <aside aria-label="Navegação da aula">
+    <div class="brand">Python / Laboratório</div>
+    <p><strong>Aula prática 01</strong><br><span class="small">Fundamentos de programação</span></p>
+    <nav aria-label="Sumário">
+      <a href="#roteiro">00 · Antes de começar</a>
+      <a href="#comparacao">01 · Visão geral</a>
+      <a href="#listas">02 · Listas</a>
+      <a href="#tuplas">03 · Tuplas</a>
+      <a href="#dicionarios">04 · Dicionários</a>
+      <a href="#conjuntos">05 · Conjuntos</a>
+      <a href="#desafio">06 · Desafio integrado</a>
+      <a href="#revisao">07 · Revisão e referências</a>
+    </nav>
+    <p class="small">Leia, execute, altere.<br>Aprenda observando os resultados.</p>
+  </aside>
+  <main id="conteudo">
+    <header>
+      <div class="eyebrow">Unidade 4 · Estruturas de dados</div>
+      <h1>Um dado é pouco.<br><span>Organize coleções.</span></h1>
+      <p class="intro">Aprenda a escolher entre listas, tuplas, dicionários e conjuntos para resolver problemas reais com Python.</p>
+      <div class="tags"><span>Nível iniciante</span><span>Python 3</span><span>90 minutos sugeridos</span><span>Teoria + prática</span></div>
+    </header>
+
+    <section id="roteiro">
+      <div class="step">00 / PREPARAÇÃO</div><h2>O que vamos construir?</h2>
+      <p>Um pequeno registro de turma: nomes em uma lista, identificação da disciplina em uma tupla, dados de estudantes em dicionários e interesses únicos em um conjunto.</p>
+      <div class="grid"><div class="tile"><strong>Ao final, você será capaz de</strong><ul><li>Criar e consultar as quatro coleções.</li><li>Adicionar, alterar e remover dados quando permitido.</li><li>Escolher uma estrutura conforme o problema.</li><li>Combinar coleções em um mesmo programa.</li></ul></div><div class="tile"><strong>Antes de começar</strong><p>Você precisa conhecer variáveis, <code>print()</code>, condicionais e <code>for</code>.</p><p>Use Python 3 instalado ou um notebook no Google Colab. Não é necessário instalar bibliotecas.</p></div></div>
+      <h3>Como acompanhar</h3><ol><li>Crie um arquivo chamado <code>estruturas.py</code> no seu editor ou abra um notebook.</li><li>Copie cada exemplo separadamente e tente prever a saída.</li><li>Execute com <code>python estruturas.py</code> no terminal (no Windows, também pode usar <code>py estruturas.py</code>). No notebook, execute a célula.</li><li>Altere os valores, execute novamente e resolva os exercícios antes de abrir o gabarito.</li></ol>
+      <p class="small">A página apresenta código Python para executar no seu ambiente; não executa Python no navegador.</p>
+      <h3>Roteiro sugerido · 90 minutos</h3><p>Preparação e comparação (10 min) → listas (15 min) → tuplas (10 min) → dicionários (15 min) → conjuntos (15 min) → desafio (20 min) → revisão (5 min).</p>
+    </section>
+
+    <section id="comparacao">
+      <div class="step">01 / ESCOLHA A FERRAMENTA</div><h2>Quatro formas de organizar informações</h2>
+      <p>Uma coleção reúne vários valores em uma variável. A escolha depende de como você precisa consultar e modificar esses valores. <strong>Mutável</strong> significa que o objeto pode ser alterado depois de criado.</p>
+      <div class="table-wrap"><table><caption>Comparação das coleções nativas do Python</caption><thead><tr><th scope="col">Estrutura</th><th scope="col">Criação</th><th scope="col">Ordem e acesso</th><th scope="col">Alterável?</th><th scope="col">Repetição</th></tr></thead><tbody>
+        <tr><th scope="row">list</th><td><code>[1, 2]</code></td><td>Sequência; índice</td><td>Sim</td><td>Permite valores repetidos</td></tr>
+        <tr><th scope="row">tuple</th><td><code>(1, 2)</code></td><td>Sequência; índice</td><td>Não, nas posições da tupla</td><td>Permite valores repetidos</td></tr>
+        <tr><th scope="row">dict</th><td><code>{"nome": "Ana"}</code></td><td>Ordem de inserção; chave</td><td>Sim</td><td>Chaves únicas; valores podem repetir</td></tr>
+        <tr><th scope="row">set</th><td><code>{1, 2}</code></td><td>Sem ordem garantida; sem índice</td><td>Sim</td><td>Elementos únicos</td></tr>
+      </tbody></table></div>
+      <div class="note"><strong>Ordenado não significa classificado.</strong> Uma lista preserva a sequência dos elementos, mas não coloca tudo em ordem alfabética automaticamente. Dicionários preservam a ordem de inserção no Python 3.7 ou superior.</div>
+      <p><code>len(colecao)</code> informa a quantidade de elementos; <code>valor in colecao</code> verifica pertinência. Em dicionários, <code>in</code> procura nas <strong>chaves</strong>.</p>
+    </section>
+
+    <section id="listas">
+      <div class="step">02 / LIST</div><h2>Listas: uma sequência que pode mudar</h2>
+      <p>Use uma lista quando precisar manter vários itens em sequência e atualizar seu conteúdo: notas, tarefas ou nomes de estudantes. Os índices começam em <code>0</code>; o índice <code>-1</code> acessa o último item.</p>
+      <pre><code class="language-python">nomes = ["Ana", "Bruno", "Carla"]
+print(nomes[0])
+nomes.append("Diego")       # Adiciona ao final
+nomes[1] = "Beatriz"       # Substitui uma posição
+nomes.remove("Carla")      # Remove pelo valor
+print(nomes)
+print(nomes[-1])
+print(len(nomes))
+print(nomes[0:2])          # Do índice 0 até antes do 2</code></pre>
+      <p class="small">Saída esperada</p><pre class="output">Ana
+['Ana', 'Beatriz', 'Diego']
+Diego
+3
+['Ana', 'Beatriz']</pre>
+      <p><code>insert(indice, valor)</code> insere em uma posição; <code>pop()</code> remove e devolve o último item; <code>sort()</code> reorganiza a própria lista. Para percorrer os valores:</p>
+      <pre><code class="language-python">for nome in ["Ana", "Bruno"]:
+    print(f"Olá, {nome}!")</code></pre>
+      <div class="note"><strong>Erros comuns:</strong> acessar uma posição inexistente gera <code>IndexError</code>; remover com <code>remove()</code> um valor ausente gera <code>ValueError</code>. Métodos como <code>append()</code> e <code>sort()</code> retornam <code>None</code>: não faça <code>nomes = nomes.append("Eva")</code>.</div>
+      <div class="exercise"><h3>Pratique · boletim de notas</h3><p>Crie a lista <code>[7.0, 8.5, 6.0]</code>, adicione <code>9.0</code>, substitua a terceira nota por <code>7.0</code> e calcule a média usando <code>sum()</code> e <code>len()</code>.</p><details><summary>Conferir solução</summary><pre><code class="language-python">notas = [7.0, 8.5, 6.0]
+notas.append(9.0)
+notas[2] = 7.0
+media = sum(notas) / len(notas)
+print(f"Média: {media:.2f}")  # Média: 7.88</code></pre></details></div>
+    </section>
+
+    <section id="tuplas">
+      <div class="step">03 / TUPLE</div><h2>Tuplas: posições que permanecem fixas</h2>
+      <p>Uma tupla é uma sequência imutável: não permite substituir, adicionar ou remover suas posições. É útil para representar pares e registros fixos, como coordenadas ou a identificação de uma disciplina.</p>
+      <pre><code class="language-python">disciplina = ("Python", 40)
+nome, carga_horaria = disciplina  # Desempacotamento
+print(nome)
+print(carga_horaria)
+print(disciplina[0])
+unico = ("Python",)              # A vírgula cria a tupla de um item
+print(type(unico).__name__)</code></pre>
+      <p class="small">Saída esperada</p><pre class="output">Python
+40
+Python
+tuple</pre>
+      <p>Para criar coleções vazias: lista <code>[]</code> e tupla <code>()</code>. A expressão <code>("Python")</code> é apenas uma string entre parênteses.</p>
+      <div class="note"><strong>Imutabilidade tem um limite:</strong> uma tupla não permite trocar suas posições, mas um objeto mutável dentro dela, como uma lista, ainda pode mudar. A atribuição <code>disciplina[0] = "Java"</code> gera <code>TypeError</code>.</div>
+      <div class="exercise"><h3>Pratique · coordenadas</h3><p>Crie uma tupla com latitude <code>-3.73</code> e longitude <code>-38.52</code>. Desempacote os valores em duas variáveis e imprima cada uma.</p><details><summary>Conferir solução</summary><pre><code class="language-python">coordenadas = (-3.73, -38.52)
+latitude, longitude = coordenadas
+print(latitude)   # -3.73
+print(longitude)  # -38.52</code></pre></details></div>
+    </section>
+
+    <section id="dicionarios">
+      <div class="step">04 / DICT</div><h2>Dicionários: cada valor tem uma chave</h2>
+      <p>Um dicionário associa chaves a valores. Use-o para representar informações com significado, como nome, matrícula e curso de um estudante. O acesso é pela chave, e não pela posição.</p>
+      <pre><code class="language-python">aluno = {"nome": "Ana", "idade": 20, "curso": "Python"}
+print(aluno["nome"])
+aluno["idade"] = 21                   # Atualiza
+aluno["matricula"] = "2026001"         # Adiciona
+print(aluno.get("email", "Não informado"))
+del aluno["curso"]                    # Remove
+for chave, valor in aluno.items():
+    print(f"{chave}: {valor}")</code></pre>
+      <p class="small">Saída esperada</p><pre class="output">Ana
+Não informado
+nome: Ana
+idade: 21
+matricula: 2026001</pre>
+      <p><code>keys()</code> fornece as chaves; <code>values()</code>, os valores; <code>items()</code>, os pares. <code>{}</code> cria um dicionário vazio. Atribuir novamente à mesma chave substitui o valor anterior.</p>
+      <div class="note"><strong>Atenção às chaves:</strong> <code>aluno["email"]</code> gera <code>KeyError</code> se a chave não existir. Use <code>get()</code> para uma consulta com valor padrão. Chaves precisam ser hashable (compatíveis com hash), como strings e números; listas e dicionários não podem ser chaves.</div>
+      <div class="exercise"><h3>Pratique · ficha de produto</h3><p>Cadastre um produto com nome “Caderno”, preço <code>15.0</code> e estoque <code>10</code>. Simule a venda de duas unidades e mostre o valor total do estoque restante.</p><details><summary>Conferir solução</summary><pre><code class="language-python">produto = {"nome": "Caderno", "preco": 15.0, "estoque": 10}
+produto["estoque"] -= 2
+total = produto["preco"] * produto["estoque"]
+print(f"Estoque: {produto['estoque']}")  # Estoque: 8
+print(f"Valor: R$ {total:.2f}")          # Valor: R$ 120.00</code></pre></details></div>
+    </section>
+
+    <section id="conjuntos">
+      <div class="step">05 / SET</div><h2>Conjuntos: cada elemento aparece uma vez</h2>
+      <p>Use conjuntos para eliminar repetições, verificar presença e comparar grupos. Eles não garantem ordem de iteração e não aceitam acesso por índice.</p>
+      <pre><code class="language-python">inscritos = {"Ana", "Bruno", "Ana"}
+inscritos.add("Carla")
+inscritos.discard("Bruno")  # Não falha se o valor estiver ausente
+print(len(inscritos))
+print("Ana" in inscritos)
+print(sorted(inscritos))   # Retorna uma LISTA ordenada para exibição</code></pre>
+      <p class="small">Saída esperada</p><pre class="output">2
+True
+['Ana', 'Carla']</pre>
+      <h3>Compare dois grupos</h3>
+      <pre><code class="language-python">python = {"Ana", "Bruno"}
+web = {"Bruno", "Carla"}
+print(sorted(python | web))  # União: em pelo menos um grupo
+print(sorted(python &amp; web))  # Interseção: nos dois grupos
+print(sorted(python - web))  # Diferença: só em Python</code></pre>
+      <p class="small">Saída esperada</p><pre class="output">['Ana', 'Bruno', 'Carla']
+['Bruno']
+['Ana']</pre>
+      <div class="note"><strong>Conjunto vazio é <code>set()</code>, não <code>{}</code>.</strong> Os elementos precisam ser hashable: strings e números funcionam, listas e dicionários não. <code>remove()</code> gera <code>KeyError</code> ao remover um item ausente; <code>discard()</code> não. Converter uma lista em conjunto elimina repetições, mas perde a ordem original.</div>
+      <div class="exercise"><h3>Pratique · presença sem duplicidade</h3><p>Transforme <code>["Ana", "Bruno", "Ana", "Carla", "Bruno"]</code> em um conjunto e mostre quantas pessoas diferentes compareceram.</p><details><summary>Conferir solução</summary><pre><code class="language-python">registros = ["Ana", "Bruno", "Ana", "Carla", "Bruno"]
+presentes = set(registros)
+print(len(presentes))  # 3</code></pre></details></div>
+    </section>
+
+    <section id="desafio">
+      <div class="step">06 / MÃO NA MASSA</div><h2>Desafio: organize uma turma</h2>
+      <p>Agora combine as quatro estruturas em um único programa. Trabalhe com dados fictícios e utilize os exemplos anteriores como consulta.</p>
+      <ol><li>Crie a tupla <code>("Fundamentos de Python", "2026.2")</code>.</li><li>Crie uma lista com dois dicionários: Ana com notas <code>[8.0, 9.0]</code> e Bruno com notas <code>[6.0, 7.0]</code>.</li><li>Adicione Carla à lista, com notas <code>[9.0, 10.0]</code>.</li><li>Percorra a turma e mostre o nome, a média e a situação de cada estudante. A média mínima para aprovação neste exercício é <code>7.0</code>.</li><li>Crie um conjunto a partir dos interesses <code>["Python", "Web", "Python", "Dados"]</code> e exiba seus itens em ordem alfabética.</li><li>Mostre o total de estudantes e de interesses únicos.</li></ol>
+      <div class="exercise"><h3>Critérios de entrega</h3><p>Salve como <code>turma.py</code>. O programa deve executar sem erros, usar os quatro tipos e produzir o resultado abaixo. Inclua um comentário explicando por que escolheu cada estrutura.</p></div>
+      <pre class="output">Fundamentos de Python | 2026.2
+Ana: 8.50 - Aprovado
+Bruno: 6.50 - Em recuperação
+Carla: 9.50 - Aprovado
+Interesses: ['Dados', 'Python', 'Web']
+Estudantes: 3
+Interesses únicos: 3</pre>
+      <details><summary>Abrir gabarito comentado do desafio</summary><pre><code class="language-python"># Tupla: os campos de identificação ficam fixos.
+disciplina = ("Fundamentos de Python", "2026.2")
+
+# Lista: a turma pode receber novos estudantes.
+# Dicionário: cada campo do estudante tem uma chave descritiva.
+turma = [
+    {"nome": "Ana", "notas": [8.0, 9.0]},
+    {"nome": "Bruno", "notas": [6.0, 7.0]},
+]
+turma.append({"nome": "Carla", "notas": [9.0, 10.0]})
+
+print(f"{disciplina[0]} | {disciplina[1]}")
+for aluno in turma:
+    media = sum(aluno["notas"]) / len(aluno["notas"])
+    situacao = "Aprovado" if media &gt;= 7.0 else "Em recuperação"
+    print(f"{aluno['nome']}: {media:.2f} - {situacao}")
+
+# Conjunto: cada interesse deve ser contado uma única vez.
+interesses = set(["Python", "Web", "Python", "Dados"])
+print(f"Interesses: {sorted(interesses)}")
+print(f"Estudantes: {len(turma)}")
+print(f"Interesses únicos: {len(interesses)}")</code></pre><p>As listas de notas deste exemplo sempre têm dois valores. Como extensão, trate o caso de um estudante sem notas antes de dividir por <code>len()</code>.</p></details>
+      <h3>Vá além</h3><p>Adicione um quarto estudante, reúna os nomes dos aprovados em uma lista e compare dois conjuntos de interesses. Explique por que um conjunto não serviria para armazenar diretamente os dicionários dos estudantes.</p>
+    </section>
+
+    <section id="revisao">
+      <div class="step">07 / CONSOLIDAÇÃO</div><h2>Confira o que você aprendeu</h2>
+      <details><summary>1. Qual estrutura usar para uma fila de tarefas que muda?</summary><p>Uma lista atende a este exercício introdutório: preserva a sequência e permite adicionar e remover tarefas. Para filas com muitas remoções no início, conheça futuramente <code>collections.deque</code>.</p></details>
+      <details><summary>2. Uma tupla pode ter valores repetidos?</summary><p>Sim. Imutabilidade diz respeito a alterações nas posições da tupla, não à exclusividade dos valores.</p></details>
+      <details><summary>3. O que acontece ao atribuir outro valor à mesma chave?</summary><p>O valor anterior é substituído. Um dicionário não mantém duas entradas com a mesma chave.</p></details>
+      <details><summary>4. Por que não acessar um conjunto com [0]?</summary><p>Conjuntos não possuem índices nem garantem ordem de iteração. Use pertinência com <code>in</code> ou percorra com <code>for</code>.</p></details>
+      <h3>Checklist de aprendizagem</h3><ul><li>Consigo explicar a diferença entre mutável e imutável.</li><li>Sei acessar sequências por índice e dicionários por chave.</li><li>Sei que <code>{}</code> é um dicionário e <code>set()</code> é um conjunto vazio.</li><li>Consigo remover repetições e calcular uma interseção.</li><li>Consigo justificar a estrutura escolhida para cada informação.</li></ul>
+      <h3>Referências para continuar</h3><p>Os exemplos e exercícios desta página foram elaborados para a aula. Consulte os materiais de apoio:</p><ul><li><a href="https://docs.python.org/pt-br/3/tutorial/datastructures.html">Documentação oficial do Python · Estruturas de dados</a> — métodos, tuplas, conjuntos e dicionários.</li><li><a href="https://bcb.gov.br/content/estabilidadefinanceira/geotec-documentos/introducao-programacao-aula-01.pdf">Banco Central do Brasil / Geotec · Introdução à Programação com Python</a> — material indicado para contextualização dos tipos de dados.</li></ul>
+    </section>
+    <footer>Aula prática 1 · Estruturas de dados em Python<br>Material de consulta e atividades para laboratório. Funciona offline; as referências externas precisam de internet.</footer>
+  </main>
+</div>
+</body>
+</html>

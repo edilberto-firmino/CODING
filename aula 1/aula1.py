@@ -30,4 +30,18 @@ def imc():
     imc = peso / (altura ** 2)
     print(f"Seu IMC é: {imc}")
 
-imc()
+def area_circulo():
+    raio = float(input("Digite o raio do círculo: "))
+    area = 3.14 * (raio ** 2)
+    print(f"A área do círculo é: {area}M²")
+
+def cachorro(): 
+    cachorro = input("cachorro está pronto? (sim/não): ")
+    while cachorro != "sim" and cachorro != "não":
+        cachorro = input("Entrada inválida. Digite 'sim' ou 'não': ")
+    if cachorro == "sim":
+        print("cachorro está pronto")
+    else:
+        print("cachorro não está pronto")
+
+cachorro()
