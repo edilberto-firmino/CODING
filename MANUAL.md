@@ -7,6 +7,8 @@ Abra o [menu de atividades](index.html) no navegador para acessar as páginas do
 | Atividade | Conteúdo | Arquivo |
 | --- | --- | --- |
 | Aula prática 1 | Estruturas de dados em Python: listas, tuplas, dicionários e conjuntos | [Abrir aula](aula-pratica-1/index.html) |
+| Aula prática 2 | Retornos, integração de funções, coleções e módulos Python; roteiro para o aluno | [Abrir aula](aula-pratica-2/index.html) |
+| Aula prática 3 | Tratamento de erros, validação de entradas, depuração e testes de regressão | [Abrir aula](aula-pratica-3/index.html) |
 | Aula 3 — Form Food | Atividade disponível na pasta form-food | [Abrir atividade](aula%203/form-food/index.html) |
 
 ## Como abrir localmente

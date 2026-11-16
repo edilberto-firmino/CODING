@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Prática de Python sobre return, integração de funções, coleções e imports. Roteiro passo a passo para alunos.">
+  <title>Aula prática 2 · Retornos e módulos em Python</title>
+  <style>
+    :root{--paper:#f5f4ef;--ink:#192d35;--muted:#52656b;--green:#125c50;--line:#d9dfda;--code:#142c35;--accent:#e6b34b}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:24px}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.7 system-ui,sans-serif}a{color:var(--green);text-underline-offset:4px}a:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:4px}.shell{max-width:1240px;margin:auto;display:grid;grid-template-columns:230px minmax(0,1fr);gap:60px;padding:40px 32px}aside{position:sticky;top:24px;align-self:start}nav{display:grid;gap:8px}nav a{font-size:14px;text-decoration:none;border-bottom:1px solid var(--line);padding:6px 0}main{min-width:0}header{padding:15px 0 35px;border-bottom:2px solid var(--ink)}.eyebrow{color:var(--green);font-size:12px;letter-spacing:.12em;font-weight:800;text-transform:uppercase}h1{font-size:clamp(38px,6vw,66px);line-height:1.1;letter-spacing:-.04em}h1 span{color:var(--green)}.intro{font-size:20px;color:var(--muted)}section{padding:32px 0;border-bottom:1px solid var(--line)}h2{font-size:29px;line-height:1.25}h3{font-size:20px}code{font-family:Consolas,monospace;font-size:.92em;background:#e6ebe6;padding:2px 5px;border-radius:4px}pre{background:var(--code);color:#e8f2ed;padding:22px;border-radius:10px;overflow-x:auto;font-size:14px;line-height:1.65}pre code{background:none;color:inherit;padding:0;font-size:inherit}.output{background:#e7eee8;color:#254438;border-left:3px solid var(--green)}.note,.exercise{padding:16px 22px;margin:20px 0;border-radius:6px}.note{background:#fff9e9;border-left:3px solid var(--accent)}.exercise{background:#e7eee8}.exercise h3{margin-top:0}details{background:white;border:1px solid var(--line);border-radius:8px;padding:16px 20px;margin:20px 0}summary{cursor:pointer;color:var(--green);font-weight:700}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:15px}th,td{text-align:left;border-bottom:1px solid var(--line);padding:12px;vertical-align:top}th{background:#e6ebe6}li{margin:7px 0}.small,footer{color:var(--muted);font-size:14px}footer{padding:30px 0}.skip{position:absolute;top:-100px;left:20px;background:white;padding:10px}.skip:focus{top:10px}@media(max-width:850px){.shell{display:block;padding:24px 20px}aside{position:static}nav{display:flex;flex-wrap:wrap;gap:8px 18px}header{margin-top:25px}}@media print{body{background:white;font-size:11pt}.shell{display:block;padding:0}aside,.skip{display:none}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#eee;color:#111}h1{font-size:32pt}h2,h3{break-after:avoid}details::details-content{content-visibility:visible}}
+  </style>
+</head>
+<body>
+<a class="skip" href="#conteudo">Ir para o conteúdo</a>
+<div class="shell">
+  <aside aria-label="Navegação da aula">
+    <p class="eyebrow">Python / Laboratório</p>
+    <p><strong>Aula prática 02</strong></p>
+    <p><a href="../index.html">← Voltar às atividades</a></p>
+    <nav aria-label="Sumário">
+      <a href="#preparacao">00 · Prepare seu ambiente</a>
+      <a href="#return">01 · Devolva resultados</a>
+      <a href="#caminhos">02 · Controle os retornos</a>
+      <a href="#integracao">03 · Integre funções</a>
+      <a href="#colecoes">04 · Trabalhe com coleções</a>
+      <a href="#imports">05 · Explore imports</a>
+      <a href="#modulos">06 · Crie seus módulos</a>
+      <a href="#desafio">07 · Complete o desafio</a>
+      <a href="#conferencia">08 · Confira e entregue</a>
+    </nav>
+    <p class="small">Preveja, execute, altere e explique. Resolva antes de consultar o gabarito.</p>
+  </aside>
+  <main id="conteudo">
+    <header>
+      <p class="eyebrow">Funções · Retornos · Módulos</p>
+      <h1>Suas funções podem<br><span>trabalhar juntas.</span></h1>
+      <p class="intro">Aprenda a devolver resultados com <code>return</code>, combinar funções e organizar um sistema de turma em arquivos Python.</p>
+      <p>Pré-requisitos: funções com parâmetros, condicionais, laços, listas, tuplas e dicionários. Duração sugerida: 4 horas, incluindo prática e intervalo.</p>
+    </header>
+
+    <section id="preparacao">
+      <p class="eyebrow">00 / Preparação</p><h2>Organize seu espaço de trabalho</h2>
+      <ol><li>Crie uma pasta chamada <code>pratica_retornos</code> no seu computador e abra-a no editor.</li><li>Crie <code>experimentos.py</code> para executar os exemplos das etapas 1 a 5. Execute um exemplo de cada vez para observar seu resultado.</li><li>Abra o terminal nessa pasta e execute <code>python experimentos.py</code>. No Windows, você também pode usar <code>py experimentos.py</code>.</li><li>Crie <code>respostas.md</code> ou um arquivo de texto para registrar as respostas solicitadas.</li></ol>
+      <div class="note">Esta página é um roteiro: o Python deve ser executado no seu editor ou terminal. Não é necessário instalar pacotes. Para praticar imports entre arquivos, use uma pasta local com Python 3.</div>
+      <p>Distribua seu tempo: preparação (10 min), retornos (40 min), integração (30 min), coleções (35 min), intervalo (10 min), imports (20 min), módulos (30 min), desafio (50 min) e conferência (15 min).</p>
+      <p><strong>Objetivo da entrega:</strong> um programa que calcula médias, classifica alunos, busca registros e apresenta um resumo, com funções distribuídas em módulos.</p>
+    </section>
+
+    <section id="return">
+      <p class="eyebrow">01 / Resultado</p><h2>Mostrar um valor e devolver um valor</h2>
+      <p><code>print()</code> escreve na tela. <code>return</code> devolve um valor para o ponto que chamou a função. Esse valor pode ser guardado, comparado ou passado para outra função.</p>
+      <pre><code class="language-python">def mostrar_media(notas):
+    print(sum(notas) / len(notas))
+
+
+def calcular_media(notas):
+    return sum(notas) / len(notas)
+
+
+resultado_a = mostrar_media([8.0, 6.0])
+resultado_b = calcular_media([8.0, 6.0])
+print("A:", resultado_a)
+print("B:", resultado_b)
+print("B com bônus:", resultado_b + 1)</code></pre>
+      <p class="small">Saída esperada</p><pre class="output">7.0
+A: None
+B: 7.0
+B com bônus: 8.0</pre>
+      <p>Quando uma função termina sem executar um <code>return</code> com valor, o resultado é <code>None</code>, que representa ausência de valor. O número exibido por <code>mostrar_media()</code> não se torna seu retorno.</p>
+      <div class="exercise"><h3>Sua vez · total de uma compra</h3><ol><li>Crie <code>calcular_total(preco, quantidade)</code>, que devolve a multiplicação.</li><li>Guarde o retorno em uma variável e imprima o total com duas casas decimais.</li><li>Use preço <code>15.0</code> e quantidade <code>3</code>: o total deve ser <code>45.00</code>.</li><li>Em <code>respostas.md</code>, explique por que imprimir dentro da função não substitui devolver o valor.</li></ol></div>
+    </section>
+
+    <section id="caminhos">
+      <p class="eyebrow">02 / Fluxo</p><h2>O retorno encerra a chamada atual</h2>
+      <pre><code class="language-python">def definir_situacao(media):
+    if media &gt;= 7:
+        return "Aprovado"
+    if media &gt;= 4:
+        return "Recuperação"
+    return "Reprovado"
+
+
+print(definir_situacao(8.0))
+print(definir_situacao(5.5))
+print(definir_situacao(3.0))</code></pre>
+      <pre class="output">Aprovado
+Recuperação
+Reprovado</pre>
+      <p>Ao executar um <code>return</code>, a função termina imediatamente. No exemplo, uma média 8 não chega à segunda condição. Uma instrução colocada depois de um retorno incondicional no mesmo bloco não será executada.</p>
+      <h3>Devolvendo mais de uma informação</h3>
+      <pre><code class="language-python">def obter_extremos(valores):
+    return min(valores), max(valores)
+
+
+menor, maior = obter_extremos([6.0, 9.0, 7.0])
+print(menor, maior)  # 6.0 9.0</code></pre>
+      <p>A expressão separada por vírgula forma uma tupla. O desempacotamento distribui seus dois valores entre as variáveis. Neste exemplo, a lista precisa conter pelo menos um número.</p>
+      <div class="exercise"><h3>Sua vez · todos os caminhos</h3><ol><li>Execute <code>definir_situacao()</code> com <code>3.9</code>, <code>4.0</code>, <code>6.9</code> e <code>7.0</code>.</li><li>Crie <code>dividir(a, b)</code>: se <code>b</code> for zero, devolva <code>None</code>; caso contrário, devolva a divisão.</li><li>Ao utilizar o retorno, verifique <code>resultado is None</code> antes de calcular com ele.</li><li>Teste <code>dividir(10, 2)</code>, <code>dividir(10, 0)</code> e <code>dividir(0, 2)</code>. Explique por que zero e <code>None</code> têm significados diferentes.</li></ol></div>
+    </section>
+
+    <section id="integracao">
+      <p class="eyebrow">03 / Integração e escopo</p><h2>Separe cálculo, classificação e apresentação</h2>
+      <p>Reutilize <code>calcular_media()</code> e <code>definir_situacao()</code>. Uma função pode consumir o resultado da outra; a apresentação fica com quem chama.</p>
+      <pre><code class="language-python">notas = [8.0, 6.0]
+media = calcular_media(notas)
+situacao = definir_situacao(media)
+print(f"Média: {media:.2f} | {situacao}")</code></pre>
+      <pre class="output">Média: 7.00 | Aprovado</pre>
+      <p>Parâmetros e variáveis criadas dentro de uma função têm escopo local: seus nomes pertencem àquela chamada. Devolver o valor permite utilizá-lo fora, sem depender de variáveis globais.</p>
+      <pre><code class="language-python">def aplicar_bonus(media, bonus=0.5):
+    nova_media = min(media + bonus, 10.0)
+    return nova_media
+
+
+media_original = 7.0
+media_final = aplicar_bonus(media_original)
+print(media_original, media_final)  # 7.0 7.5
+# print(nova_media)  # NameError: o nome é local à função.</code></pre>
+      <div class="exercise"><h3>Sua vez · composição</h3><ol><li>Crie <code>avaliar_aluno(notas)</code>, que chama as funções de média e situação e devolve a tupla <code>(media, situacao)</code>.</li><li>Desempacote o retorno e apresente os resultados fora da função.</li><li>Use <code>[9.0, 8.0]</code>, <code>[5.0, 6.0]</code> e <code>[2.0, 4.0]</code>.</li><li>Registre as médias esperadas: <code>8.5</code>, <code>5.5</code> e <code>3.0</code>, com as respectivas situações.</li></ol></div>
+    </section>
+
+    <section id="colecoes">
+      <p class="eyebrow">04 / Coleções</p><h2>Retorne registros e seleções de dados</h2>
+      <pre><code class="language-python">alunos = [
+    {"matricula": "001", "nome": "Ana", "notas": [8.0, 9.0]},
+    {"matricula": "002", "nome": "Bruno", "notas": [6.0, 7.0]},
+    {"matricula": "003", "nome": "Carla", "notas": [9.0, 10.0]},
+]
+
+
+def buscar_aluno(alunos, matricula):
+    for aluno in alunos:
+        if aluno["matricula"] == matricula:
+            return aluno
+    return None
+
+
+def filtrar_aprovados(alunos):
+    aprovados = []
+    for aluno in alunos:
+        if calcular_media(aluno["notas"]) &gt;= 7:
+            aprovados.append(aluno)
+    return aprovados
+
+
+encontrado = buscar_aluno(alunos, "002")
+if encontrado is not None:
+    print(encontrado["nome"])  # Bruno
+
+for aluno in filtrar_aprovados(alunos):
+    print(aluno["nome"])      # Ana e Carla, uma por linha</code></pre>
+      <div class="note"><strong>Atenção às alterações:</strong> a busca devolve o próprio dicionário guardado na lista. Alterá-lo também muda o registro original. O filtro cria uma nova lista, mas seus elementos continuam sendo os mesmos dicionários. Criar uma nova lista não copia automaticamente todos os objetos internos.</div>
+      <div class="exercise"><h3>Sua vez · resumo da turma</h3><ol><li>Crie <code>resumir_turma(alunos)</code> e devolva um dicionário com as chaves <code>total</code> e <code>media_geral</code>.</li><li>Calcule a média de cada aluno e depois a média dessas médias.</li><li>Para turma vazia, devolva <code>{"total": 0, "media_geral": None}</code>.</li><li>Teste com os três alunos acima: total <code>3</code> e média geral exibida como <code>8.17</code>.</li><li>Busque uma matrícula inexistente e apresente “Aluno não encontrado” fora da função.</li></ol></div>
+      <p>Contrato desta prática: cada aluno possui matrícula, nome e pelo menos uma nota numérica entre 0 e 10. Turma vazia é permitida. A validação de notas digitadas e o tratamento de exceções ficam para uma prática posterior.</p>
+    </section>
+
+    <section id="imports">
+      <p class="eyebrow">05 / Biblioteca padrão</p><h2>Use funções que já estão em outros módulos</h2>
+      <p>Um módulo organiza código reutilizável. Python inclui uma biblioteca padrão que pode ser importada sem instalar pacotes.</p>
+      <pre><code class="language-python">import math
+
+print(math.sqrt(81))  # 9.0
+
+from math import ceil
+
+print(ceil(7.2))      # 8
+
+import random as sorteio
+
+print(sorteio.choice(["Ana", "Bruno", "Carla"]))</code></pre>
+      <p><code>import math</code> permite usar o prefixo <code>math.</code>; <code>from math import ceil</code> traz o nome escolhido; <code>as</code> define um apelido. No sorteio, o nome exibido pode variar a cada execução.</p>
+      <div class="note">Evite <code>from modulo import *</code>: os nomes importados ficam menos claros. Não chame seus arquivos de <code>math.py</code> ou <code>random.py</code>, pois isso pode interferir na importação dos módulos da biblioteca padrão.</div>
+      <div class="exercise"><h3>Sua vez · dois imports</h3><ol><li>Use <code>math.ceil()</code> para calcular quantos grupos são necessários para acomodar 23 alunos, com até 5 alunos por grupo. Resultado: <code>5</code>.</li><li>Use <code>random.choice()</code> para sortear uma matrícula entre <code>"001"</code>, <code>"002"</code> e <code>"003"</code>.</li><li>Passe a matrícula sorteada para <code>buscar_aluno()</code> e mostre o nome retornado.</li><li>Explique por que o resultado do sorteio não deve ser conferido comparando sempre com um único nome.</li></ol></div>
+    </section>
+
+    <section id="modulos">
+      <p class="eyebrow">06 / Seus arquivos</p><h2>Transforme suas funções em módulos</h2>
+      <p>Na mesma pasta de <code>experimentos.py</code>, crie estes três arquivos. Use exatamente estes nomes para os imports abaixo funcionarem.</p>
+      <pre class="output">pratica_retornos/
+├── experimentos.py
+├── calculos.py
+├── turma.py
+├── main.py
+└── respostas.md</pre>
+      <ol><li>Em <code>calculos.py</code>, coloque <code>calcular_media(notas)</code> e <code>definir_situacao(media)</code>. Deixe apenas as definições, sem chamadas de demonstração.</li><li>Em <code>turma.py</code>, coloque <code>buscar_aluno()</code>, <code>filtrar_aprovados()</code> e <code>resumir_turma()</code>. No início do arquivo, use <code>from calculos import calcular_media</code>.</li><li>Em <code>main.py</code>, crie os dados da turma e apresente os resultados, seguindo o exemplo abaixo.</li></ol>
+      <pre><code class="language-python">from calculos import calcular_media, definir_situacao
+from turma import buscar_aluno, filtrar_aprovados, resumir_turma
+
+
+def main():
+    alunos = [
+        {"matricula": "001", "nome": "Ana", "notas": [8.0, 9.0]},
+        {"matricula": "002", "nome": "Bruno", "notas": [6.0, 7.0]},
+        {"matricula": "003", "nome": "Carla", "notas": [9.0, 10.0]},
+    ]
+    for aluno in alunos:
+        media = calcular_media(aluno["notas"])
+        situacao = definir_situacao(media)
+        print(f"{aluno['nome']}: {media:.2f} - {situacao}")
+
+
+if __name__ == "__main__":
+    main()</code></pre>
+      <h3>Por que usar essa condição?</h3>
+      <p>Ao executar <code>python main.py</code>, o nome especial <code>__name__</code> vale <code>"__main__"</code>, e <code>main()</code> é chamada. Ao importar o arquivo, essa condição é falsa. As instruções no nível principal de um módulo são executadas na primeira importação; essa proteção impede a chamada automática da demonstração.</p>
+      <div class="exercise"><h3>Verifique seus módulos</h3><ol><li>No terminal da pasta, execute <code>python main.py</code>. Você deve ver as três linhas com nome, média e situação.</li><li>Execute <code>python -c "import calculos; import turma; import main"</code>. O comando deve terminar sem imprimir a turma.</li><li>Se aparecer <code>ModuleNotFoundError</code>, confira os nomes, a extensão <code>.py</code>, a localização dos arquivos e a pasta aberta no terminal.</li></ol></div>
+      <p class="note">Mantenha a direção das dependências: <code>main</code> importa <code>turma</code> e <code>calculos</code>; <code>turma</code> importa <code>calculos</code>. Esses módulos não precisam importar <code>main</code>.</p>
+    </section>
+
+    <section id="desafio">
+      <p class="eyebrow">07 / Desafio integrado</p><h2>Complete o relatório da turma</h2>
+      <p>Continue os arquivos criados. Faça uma etapa de cada vez e execute o programa após cada alteração.</p>
+      <ol><li>Em <code>main()</code>, depois da listagem, busque a matrícula <code>"002"</code> e mostre seu nome.</li><li>Mostre os nomes retornados por <code>filtrar_aprovados()</code>.</li><li>Use <code>resumir_turma()</code> para apresentar total e média geral.</li><li>Acrescente a busca pela matrícula <code>"999"</code> e trate o retorno <code>None</code>.</li><li>Execute também <code>resumir_turma([])</code>; apresente “Sem dados” quando não existir média.</li><li>Adicione Diego, matrícula <code>"004"</code>, com notas <code>[3.0, 3.0]</code>. Preveja o novo total e a média geral antes de executar.</li><li>Escreva uma docstring curta em cada função, explicando o que recebe e devolve.</li></ol>
+      <p class="small">Resultado esperado antes de adicionar Diego</p>
+      <pre class="output">Ana: 8.50 - Aprovado
+Bruno: 6.50 - Recuperação
+Carla: 9.50 - Aprovado
+Busca 002: Bruno
+Aprovados: Ana, Carla
+Total: 3
+Média geral: 8.17
+Aluno não encontrado
+Turma vazia: Sem dados</pre>
+      <p>Depois de adicionar Diego: total <code>4</code>, média geral <code>6.88</code> na exibição com duas casas e os mesmos dois aprovados.</p>
+      <details><summary>Consultar gabarito de referência · abra depois de tentar</summary>
+        <h3>calculos.py</h3>
+        <pre data-file="calculos.py"><code class="language-python">def calcular_media(notas):
+    """Recebe notas não vazias e devolve a média aritmética."""
+    return sum(notas) / len(notas)
+
+
+def definir_situacao(media):
+    """Recebe uma média e devolve a situação acadêmica."""
+    if media &gt;= 7:
+        return "Aprovado"
+    if media &gt;= 4:
+        return "Recuperação"
+    return "Reprovado"</code></pre>
+        <h3>turma.py</h3>
+        <pre data-file="turma.py"><code class="language-python">from calculos import calcular_media
+
+
+def buscar_aluno(alunos, matricula):
+    """Recebe turma e matrícula; devolve o registro ou None."""
+    for aluno in alunos:
+        if aluno["matricula"] == matricula:
+            return aluno
+    return None
+
+
+def filtrar_aprovados(alunos):
+    """Recebe a turma e devolve uma nova lista de aprovados."""
+    aprovados = []
+    for aluno in alunos:
+        if calcular_media(aluno["notas"]) &gt;= 7:
+            aprovados.append(aluno)
+    return aprovados
+
+
+def resumir_turma(alunos):
+    """Devolve total e média geral; para turma vazia, a média é None."""
+    if not alunos:
+        return {"total": 0, "media_geral": None}
+    medias = []
+    for aluno in alunos:
+        medias.append(calcular_media(aluno["notas"]))
+    return {"total": len(alunos), "media_geral": calcular_media(medias)}</code></pre>
+        <h3>main.py</h3>
+        <pre data-file="main.py"><code class="language-python">from calculos import calcular_media, definir_situacao
+from turma import buscar_aluno, filtrar_aprovados, resumir_turma
+
+
+def main():
+    """Cria dados de exemplo e apresenta os resultados da turma."""
+    alunos = [
+        {"matricula": "001", "nome": "Ana", "notas": [8.0, 9.0]},
+        {"matricula": "002", "nome": "Bruno", "notas": [6.0, 7.0]},
+        {"matricula": "003", "nome": "Carla", "notas": [9.0, 10.0]},
+    ]
+    for aluno in alunos:
+        media = calcular_media(aluno["notas"])
+        situacao = definir_situacao(media)
+        print(f"{aluno['nome']}: {media:.2f} - {situacao}")
+
+    encontrado = buscar_aluno(alunos, "002")
+    if encontrado is not None:
+        print(f"Busca 002: {encontrado['nome']}")
+
+    nomes = []
+    for aluno in filtrar_aprovados(alunos):
+        nomes.append(aluno["nome"])
+    print("Aprovados:", ", ".join(nomes))
+
+    resumo = resumir_turma(alunos)
+    print(f"Total: {resumo['total']}")
+    print(f"Média geral: {resumo['media_geral']:.2f}")
+
+    if buscar_aluno(alunos, "999") is None:
+        print("Aluno não encontrado")
+
+    vazio = resumir_turma([])
+    if vazio["media_geral"] is None:
+        print("Turma vazia: Sem dados")
+
+
+if __name__ == "__main__":
+    main()</code></pre>
+        <p><code>", ".join(nomes)</code> reúne uma lista de strings em um texto, colocando vírgula e espaço entre os nomes. O gabarito mostra a versão com três alunos; faça você a inclusão de Diego.</p>
+      </details>
+    </section>
+
+    <section id="conferencia">
+      <p class="eyebrow">08 / Conferência e entrega</p><h2>Comprove o funcionamento</h2>
+      <p>Crie <code>conferir.py</code> na mesma pasta. <code>assert</code> verifica uma condição: se ela for falsa, Python gera <code>AssertionError</code>. Use-o aqui para conferir resultados durante o desenvolvimento, não como validação de entradas do usuário.</p>
+      <pre data-file="conferir.py"><code class="language-python">from calculos import calcular_media, definir_situacao
+from turma import buscar_aluno, filtrar_aprovados, resumir_turma
+
+assert calcular_media([8.0, 6.0]) == 7.0
+assert definir_situacao(3.9) == "Reprovado"
+assert definir_situacao(4.0) == "Recuperação"
+assert definir_situacao(6.9) == "Recuperação"
+assert definir_situacao(7.0) == "Aprovado"
+assert buscar_aluno([], "999") is None
+assert filtrar_aprovados([]) == []
+assert resumir_turma([]) == {"total": 0, "media_geral": None}
+
+alunos = [
+    {"matricula": "001", "nome": "Ana", "notas": [8.0, 9.0]},
+    {"matricula": "002", "nome": "Bruno", "notas": [6.0, 7.0]},
+    {"matricula": "003", "nome": "Carla", "notas": [9.0, 10.0]},
+]
+assert buscar_aluno(alunos, "002")["nome"] == "Bruno"
+assert buscar_aluno(alunos, "999") is None
+aprovados = filtrar_aprovados(alunos)
+assert len(aprovados) == 2
+assert aprovados[0]["nome"] == "Ana"
+assert aprovados[1]["nome"] == "Carla"
+resumo = resumir_turma(alunos)
+assert resumo["total"] == 3
+assert abs(resumo["media_geral"] - 24.5 / 3) &lt; 0.000001
+print("Conferências concluídas.")</code></pre>
+      <p>Execute <code>python conferir.py</code>. A saída deve ser <code>Conferências concluídas.</code> A tolerância na última comparação permite pequenas diferenças de representação dos números decimais.</p>
+      <h3>Antes de entregar</h3>
+      <ul><li>Conclua os exercícios das etapas 1 a 5 em <code>experimentos.py</code>.</li><li>Confira <code>main.py</code>, <code>calculos.py</code>, <code>turma.py</code> e <code>conferir.py</code>, mantendo todos na mesma pasta.</li><li>Registre em <code>respostas.md</code> as respostas pedidas e os resultados das execuções com três e quatro alunos.</li><li>Explique com suas palavras: o que é <code>None</code>, quando usar <code>return</code>, por que separar módulos e qual o papel de <code>__name__</code>.</li><li>Entregue a pasta conforme o canal indicado pelo professor. Você deve conseguir executar e explicar cada função.</li></ul>
+      <h3>Se terminar antes</h3><p>Crie <code>obter_extremos_turma(alunos)</code>, retornando uma tupla com menor e maior média, ou <code>None</code> para turma vazia. Adicione conferências para as duas situações. Depois experimente alterar um registro retornado pela busca e observe o efeito na lista original; registre sua explicação.</p>
+    </section>
+    <footer>Aula prática 2 · Retornos e módulos em Python · Material de laboratório com exemplos para execução local.</footer>
+  </main>
+</div>
+</body>
+</html>

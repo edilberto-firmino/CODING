@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Roteiro para alunos: tratamento de erros, validação, depuração e testes em Python."><title>Aula prática 3 · Erros, validação e depuração</title><style>
+    :root{--paper:#f5f4ef;--ink:#192d35;--muted:#52656b;--green:#125c50;--line:#d9dfda;--code:#142c35;--accent:#e6b34b}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:24px}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.7 system-ui,sans-serif}a{color:var(--green);text-underline-offset:4px}a:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:4px}.shell{max-width:1240px;margin:auto;display:grid;grid-template-columns:230px minmax(0,1fr);gap:60px;padding:40px 32px}aside{position:sticky;top:24px;align-self:start}nav{display:grid;gap:8px}nav a{font-size:14px;text-decoration:none;border-bottom:1px solid var(--line);padding:6px 0}main{min-width:0}header{padding:15px 0 35px;border-bottom:2px solid var(--ink)}.eyebrow{color:var(--green);font-size:12px;letter-spacing:.12em;font-weight:800;text-transform:uppercase}h1{font-size:clamp(38px,6vw,66px);line-height:1.1;letter-spacing:-.04em}h1 span{color:var(--green)}.intro{font-size:20px;color:var(--muted)}section{padding:32px 0;border-bottom:1px solid var(--line)}h2{font-size:29px;line-height:1.25}h3{font-size:20px}code{font-family:Consolas,monospace;font-size:.92em;background:#e6ebe6;padding:2px 5px;border-radius:4px}pre{background:var(--code);color:#e8f2ed;padding:22px;border-radius:10px;overflow-x:auto;font-size:14px;line-height:1.65}pre code{background:none;color:inherit;padding:0;font-size:inherit}.output{background:#e7eee8;color:#254438;border-left:3px solid var(--green)}.note,.exercise{padding:16px 22px;margin:20px 0;border-radius:6px}.note{background:#fff9e9;border-left:3px solid var(--accent)}.exercise{background:#e7eee8}.exercise h3{margin-top:0}details{background:white;border:1px solid var(--line);border-radius:8px;padding:16px 20px;margin:20px 0}summary{cursor:pointer;color:var(--green);font-weight:700}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:15px}th,td{text-align:left;border-bottom:1px solid var(--line);padding:12px;vertical-align:top}th{background:#e6ebe6}li{margin:7px 0}.small,footer{color:var(--muted);font-size:14px}footer{padding:30px 0}.skip{position:absolute;top:-100px;left:20px;background:white;padding:10px}.skip:focus{top:10px}@media(max-width:850px){.shell{display:block;padding:24px 20px}aside{position:static}nav{display:flex;flex-wrap:wrap;gap:8px 18px}header{margin-top:25px}}@media print{body{background:white;font-size:11pt}.shell{display:block;padding:0}aside,.skip{display:none}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#eee;color:#111}h1{font-size:32pt}h2,h3{break-after:avoid}details::details-content{content-visibility:visible}}
+  </style></head>
+<body><a class="skip" href="#conteudo">Ir para o conteúdo</a><div class="shell"><aside aria-label="Navegação da aula"><p class="eyebrow">Python / Laboratório</p><p><strong>Aula prática 03</strong></p><p><a href="../index.html">← Voltar às atividades</a></p><nav aria-label="Sumário"><a href="#preparacao">00 · Prepare a nova versão</a><a href="#erros">01 · Reconheça os tipos de erro</a><a href="#excecoes">02 · Trate falhas esperadas</a><a href="#validacao">03 · Valide e peça novamente</a><a href="#depuracao">04 · Investigue antes de corrigir</a><a href="#testes">05 · Proteja as correções</a><a href="#desafio">06 · Construa o sistema resistente a falhas</a><a href="#referencia">07 · Consulte a solução depois de tentar</a><a href="#entrega">08 · Explique e entregue</a></nav><p class="small">Reproduza, investigue, corrija e confira.</p></aside><main id="conteudo"><header><p class="eyebrow">Erros · Validação · Depuração · Testes</p><h1>Seu programa precisa<br><span>saber lidar com falhas.</span></h1><p class="intro">Transforme o sistema de turma em um programa que orienta o usuário, protege suas regras e permite verificar os resultados.</p><p>Python 3 · 4 horas sugeridas · Teoria, prática guiada e desafio</p><p><a href="../aula-pratica-2/index.html">Retomar a prática 2: retornos e módulos</a></p></header><section id="preparacao"><h2>00 · Prepare a nova versão</h2>
+<p>Nesta prática você vai tornar o sistema de turma resistente a entradas inválidas. Ao final, deverá localizar uma falha, explicar sua causa, corrigir o código e comprovar o resultado.</p>
+<ol><li>Crie uma pasta <code>pratica_erros</code>. Preserve os arquivos da prática 2 para comparar as versões.</li><li>Abra a nova pasta no editor e no terminal. Confirme o Python com <code>python --version</code> ou <code>py --version</code>.</li><li>Crie <code>experimentos.py</code> e <code>respostas.md</code>. Execute os exemplos curtos separadamente.</li><li>Depois das atividades iniciais, crie os arquivos <code>validacoes.py</code>, <code>turma.py</code>, <code>main.py</code> e <code>conferir.py</code>.</li></ol>
+<div class="note">Você já precisa conhecer funções, parâmetros, <code>return</code>, listas, dicionários e imports. O navegador apresenta o roteiro; execute Python no seu computador. Não é necessário instalar pacotes.</div>
+<div class="table-wrap"><table><caption>Roteiro de quatro horas</caption><thead><tr><th>Etapa</th><th>Tempo</th></tr></thead><tbody><tr><td>Preparação</td><td>10 min</td></tr><tr><td>Tipos de erro e traceback</td><td>25 min</td></tr><tr><td>Tratamento de exceções</td><td>35 min</td></tr><tr><td>Validação com funções</td><td>35 min</td></tr><tr><td>Intervalo</td><td>10 min</td></tr><tr><td>Depuração</td><td>25 min</td></tr><tr><td>Conferências e testes</td><td>25 min</td></tr><tr><td>Desafio integrado</td><td>60 min</td></tr><tr><td>Entrega e revisão</td><td>15 min</td></tr></tbody></table></div></section><section id="erros"><h2>01 · Reconheça os tipos de erro</h2>
+<div class="table-wrap"><table><thead><tr><th>Tipo</th><th>Exemplo</th><th>Como investigar</th></tr></thead><tbody><tr><td>Sintaxe</td><td><code>if media &gt;= 7</code>, sem dois-pontos</td><td>Corrija a estrutura indicada antes de executar.</td></tr><tr><td>Execução</td><td><code>float("sete")</code></td><td>Leia a exceção e localize a operação que falhou.</td></tr><tr><td>Lógica</td><td><code>8 + 6 / 2</code> para a média</td><td>Compare o resultado com um valor calculado à mão.</td></tr></tbody></table></div>
+<p>Nem todo erro encerra o programa: uma regra incorreta pode produzir uma saída aparentemente normal. Para encontrar esse tipo de falha, precisamos de resultados esperados.</p>
+<h3>Leia o traceback</h3><pre><code class="language-python">def converter_nota(texto):
+    return float(texto)
+
+converter_nota(&quot;sete&quot;)</code></pre>
+<p>Execute esse exemplo sozinho. O trecho final da mensagem será semelhante a:</p>
+<pre class="output">  File "experimentos.py", line 2, in converter_nota
+    return float(texto)
+ValueError: could not convert string to float: 'sete'</pre>
+<p>O caminho e as linhas variam conforme seu arquivo. Comece pela última linha, que mostra o tipo e a mensagem. Depois observe a linha do seu código onde a falha aconteceu e as chamadas anteriores. Não confunda a linha onde o erro apareceu com sua causa: o texto inválido veio de quem chamou a função.</p><div class="exercise"><h3>Sua vez · classifique e explique</h3><ol><li>Execute, separadamente: <code>10 / 0</code>, <code>[8, 9][2]</code> e <code>{"nome": "Ana"}["notas"]</code>.</li><li>Registre o tipo de exceção, a operação que falhou e uma forma de evitar o problema.</li><li>Calcule <code>8 + 6 / 2</code> e compare com a média esperada, <code>7</code>. Explique por que não houve uma exceção.</li><li>Em um arquivo separado, remova os dois-pontos de um <code>if</code>. Observe o <code>SyntaxError</code>, corrija e execute novamente.</li></ol></div></section><section id="excecoes"><h2>02 · Trate falhas esperadas</h2>
+<p>Um bloco <code>try</code> delimita uma operação que pode falhar. Um <code>except</code> específico define como responder àquela exceção. O restante do bloco <code>try</code> é interrompido quando a exceção ocorre.</p><pre><code class="language-python">try:
+    nota = float(input(&quot;Nota: &quot;))
+except ValueError:
+    print(&quot;Você precisa digitar um número.&quot;)
+else:
+    print(f&quot;Número recebido: {nota:.2f}&quot;)</code></pre>
+<p><code>else</code> executa quando o bloco <code>try</code> termina sem exceção. Aqui, receber <code>12</code> não causa <code>ValueError</code>: é um número válido para conversão, mas está fora da regra das notas. Trataremos isso na próxima etapa.</p>
+<h3>Mais de uma falha possível</h3><pre><code class="language-python">try:
+    total = float(input(&quot;Total: &quot;))
+    pessoas = int(input(&quot;Quantidade de pessoas: &quot;))
+    valor = total / pessoas
+except ValueError:
+    print(&quot;Digite números nos formatos solicitados.&quot;)
+except ZeroDivisionError:
+    print(&quot;Não é possível dividir por zero pessoas.&quot;)
+else:
+    print(f&quot;Valor por pessoa: R$ {valor:.2f}&quot;)</code></pre>
+<div class="note">Capture a exceção que você sabe tratar. Evite <code>except:</code> e <code>except Exception: pass</code>: eles podem esconder defeitos e fazer o programa continuar com dados incompletos. Mantenha o <code>try</code> próximo da operação que pode falhar.</div>
+<h3>Onde entra finally?</h3><p><code>finally</code> executa ao sair do bloco, mesmo quando há exceção. É usado para finalização de recursos; não é necessário para validar uma nota. Como observação de fluxo, experimente acrescentar <code>finally: print("Tentativa concluída.")</code> ao primeiro exemplo e compare uma entrada válida com uma inválida.</p><div class="exercise"><h3>Sua vez · divisão controlada</h3><ol><li>Execute o exemplo com <code>100</code> e <code>4</code>, depois com <code>cem</code>, depois com <code>100</code> e <code>0</code>.</li><li>Acrescente uma regra para recusar total negativo e quantidade de pessoas menor ou igual a zero antes de dividir.</li><li>Registre a diferença entre conversão inválida e valor numérico que viola uma regra.</li></ol></div></section><section id="validacao"><h2>03 · Valide e peça novamente</h2>
+<p>Validar envolve três perguntas: o texto pode ser convertido? O valor respeita a regra? Se não respeitar, como o usuário pode tentar novamente?</p><pre><code class="language-python">def ler_nota(mensagem):
+    while True:
+        entrada = input(mensagem).strip().replace(&quot;,&quot;, &quot;.&quot;)
+        try:
+            nota = float(entrada)
+        except ValueError:
+            print(&quot;Digite uma nota numérica.&quot;)
+            continue
+        if not 0 &lt;= nota &lt;= 10:
+            print(&quot;A nota deve estar entre 0 e 10.&quot;)
+            continue
+        return nota
+
+nota = ler_nota(&quot;Nota: &quot;)
+print(f&quot;Nota aceita: {nota:.2f}&quot;)</code></pre>
+<p><code>continue</code> inicia a próxima tentativa. <code>return</code> encerra a função somente quando a nota é aceita. <code>strip()</code> remove espaços das extremidades; <code>replace()</code> permite usar vírgula como separador decimal. Esse tratamento não é um leitor de valores monetários com separadores de milhar.</p>
+<h3>Texto vazio também precisa de regra</h3><pre><code class="language-python">def ler_texto(mensagem):
+    while True:
+        texto = input(mensagem).strip()
+        if texto:
+            return texto
+        print(&quot;O texto não pode ficar vazio.&quot;)</code></pre>
+<h3>Use raise nas regras do sistema</h3>
+<p>A função que lá o teclado pode pedir novamente. Uma função de cadastro, que também pode ser chamada por outro código, deve sinalizar a regra violada. <code>raise</code> permite gerar uma exceção de propósito.</p><pre><code class="language-python">def validar_matricula(matricula):
+    if not matricula.strip():
+        raise ValueError(&quot;A matrícula é obrigatória.&quot;)
+    return matricula.strip()
+
+try:
+    matricula = validar_matricula(&quot;   &quot;)
+except ValueError as erro:
+    print(f&quot;Cadastro recusado: {erro}&quot;)</code></pre><div class="exercise"><h3>Sua vez · entradas confiáveis</h3><ol><li>Teste <code>ler_nota()</code> digitando nesta ordem: <code>sete</code>, <code>-1</code>, <code>11</code> e <code>7,5</code>. Somente o último valor deve ser aceito.</li><li>Teste os limites <code>0</code> e <code>10</code>. Ambos são válidos.</li><li>Teste <code>ler_texto()</code> com Enter, espaços e depois um nome.</li><li>Crie <code>ler_opcao()</code> para aceitar somente as strings <code>"0"</code>, <code>"1"</code>, <code>"2"</code>, <code>"3"</code> e <code>"4"</code>. Uma opção inválida deve solicitar nova tentativa.</li></ol></div>
+<details><summary>Aprofundamento · números especiais</summary><p><code>float()</code> também aceita <code>nan</code> e <code>inf</code>. Não representam notas válidas. A condição <code>not 0 &lt;= nota &lt;= 10</code> já os recusa. Na referência, usamos também <code>math.isfinite(nota)</code> para deixar explícito que esperamos um número finito. Teste essas entradas e observe a recusa.</p></details></section><section id="depuracao"><h2>04 · Investigue antes de corrigir</h2>
+<p>Use esta sequência: reproduza a falha → anote esperado e obtido → localize a etapa divergente → formule uma hipótese → faça uma mudança pequena → execute novamente → confira os casos anteriores.</p><pre><code class="language-python">def calcular_media(notas):
+    total = sum(notas)
+    quantidade = len(notas)
+    return total / quantidade - 1
+
+print(calcular_media([8, 6]))  # Esperado: 7.0; obtido: 6.0</code></pre><div class="exercise"><h3>Laboratório · três defeitos</h3><ol><li>Execute o exemplo e inspecione <code>total</code> e <code>quantidade</code> com prints temporários, ou com um breakpoint no editor. Identifique a operação incorreta e corrija.</li><li>Execute com <code>[]</code>. Defina o contrato: sem notas, o resultado deve ser <code>None</code>. Corrija sem capturar indiscriminadamente todos os erros.</li><li>Crie uma classificação que usa <code>media &gt; 7</code>. Teste a média exata <code>7</code> e ajuste para aprovação a partir de 7.</li><li>Registre cada investigação em <code>respostas.md</code>: entrada, esperado, obtido, hipótese, correção e resultado após a mudança.</li><li>Remova os prints temporários e execute novamente todos os casos.</li></ol></div>
+<div class="note">Zero não significa ausência de notas. A média <code>0.0</code> é válida. Use <code>media is None</code> para reconhecer ausência; <code>if not media</code> confundiria as duas situações.</div>
+<h3>Sem notas não significa reprovado</h3><p>Adapte <code>definir_situacao(media)</code> para devolver “Sem notas” quando recebe <code>None</code>. Na apresentação, só use <code>:.2f</code> quando houver uma média numérica.</p></section><section id="testes"><h2>05 · Proteja as correções</h2>
+<p>Um teste compara um comportamento com um resultado esperado. Um teste de regressão guarda um caso que falhou para perceber se o problema reaparecer.</p><pre><code class="language-python">from turma import calcular_media, definir_situacao
+
+assert calcular_media([8, 6]) == 7
+assert calcular_media([0, 0]) == 0
+assert calcular_media([]) is None
+assert definir_situacao(4) == &quot;Recuperação&quot;
+assert definir_situacao(7) == &quot;Aprovado&quot;
+assert definir_situacao(None) == &quot;Sem notas&quot;
+print(&quot;Conferências concluídas.&quot;)</code></pre>
+<p>Salve em <code>conferir.py</code> depois de implementar as funções em <code>turma.py</code>. Execute <code>python conferir.py</code>. Uma condição falsa produz <code>AssertionError</code>; sem falhas, você verá a mensagem final. Não execute com <code>-O</code>, pois essa opção desativa asserts.</p>
+<div class="note">Use <code>assert</code> para conferir o desenvolvimento. Para validar dados da aplicação, use condições e exceções: asserts podem ser desativados.</div>
+<div class="table-wrap"><table><thead><tr><th>Caso</th><th>Resultado esperado</th></tr></thead><tbody><tr><td>Médias 3.9 / 4 / 6.9 / 7</td><td>Reprovado / Recuperação / Recuperação / Aprovado</td></tr><tr><td>Lista de notas vazia</td><td>Média None; situação Sem notas</td></tr><tr><td>Turma vazia</td><td>Total 0; média geral None</td></tr><tr><td>Matrícula ausente</td><td>Busca devolve None</td></tr><tr><td>Matrícula repetida</td><td>Cadastro recusado; lista preservada</td></tr><tr><td>Nota -1, 11 ou texto na regra de cálculo</td><td>ValueError</td></tr></tbody></table></div><div class="exercise"><h3>Sua vez · teste que encontra defeito</h3><ol><li>Acrescente os limites que faltam ao arquivo de conferência.</li><li>Troque temporariamente <code>&gt;= 7</code> por <code>&gt; 7</code> na classificação e execute os testes.</li><li>Confirme que um teste falha, restaure a regra correta e execute novamente.</li><li>Explique por que ver uma falha nessa experiência ajuda a avaliar a utilidade do teste.</li></ol></div></section><section id="desafio"><h2>06 · Construa o sistema resistente a falhas</h2>
+<p>Agora integre o que você praticou. Implemente primeiro as regras, depois as entradas, depois o menu. Execute o programa após cada etapa.</p>
+<pre class="output">pratica_erros/
+├── experimentos.py
+├── validacoes.py
+├── turma.py
+├── main.py
+├── conferir.py
+├── respostas.md</pre>
+<div class="table-wrap"><table><thead><tr><th>Arquivo</th><th>Responsabilidade</th></tr></thead><tbody><tr><td>validacoes.py</td><td>Ler texto não vazio, nota e opção, repetindo entradas inválidas.</td></tr><tr><td>turma.py</td><td>Calcular, classificar, buscar, cadastrar e resumir; sem input ou print.</td></tr><tr><td>main.py</td><td>Apresentar o menu, chamar funções e mostrar resultados.</td></tr><tr><td>conferir.py</td><td>Executar verificações das regras, dos limites e das falhas corrigidas.</td></tr></tbody></table></div>
+<h3>Passo 1 · Defina os contratos</h3>
+<ul><li><code>calcular_media(notas)</code>: retorna média, ou <code>None</code> para lista vazia. Notas precisam ser números finitos de 0 a 10; dados inválidos geram <code>ValueError</code>.</li><li><code>definir_situacao(media)</code>: recebe média válida ou <code>None</code>; retorna Aprovado, Recuperação, Reprovado ou Sem notas.</li><li><code>buscar_aluno(alunos, matricula)</code>: retorna o registro ou <code>None</code>.</li><li><code>cadastrar_aluno(alunos, matricula, nome, notas)</code>: recebe matrícula e nome como strings, remove espaços nas extremidades, recusa campos vazios ou matrícula repetida e valida notas. Só adiciona o registro depois de todas as verificações. Retorna o aluno cadastrado; nas recusas, gera <code>ValueError</code>.</li><li><code>resumir_turma(alunos)</code>: retorna um dicionário com <code>total</code>, <code>com_notas</code> e <code>media_geral</code>. Conte todos os alunos no total, mas calcule a média geral apenas com aqueles que têm notas. Se ninguém tiver notas, a média geral será <code>None</code>.</li></ul>
+<p>Estrutura de cada registro: <code>{"matricula": "001", "nome": "Ana", "notas": [8.0, 9.0]}</code>. Uma lista vazia de notas também é aceita pelas regras para representar aluno ainda não avaliado.</p>
+<h3>Passo 2 · Implemente as entradas</h3><p>Reaproveite <code>ler_texto(mensagem)</code>, <code>ler_nota(mensagem)</code> e <code>ler_opcao()</code>. Não use variáveis globais para transmitir resultados: devolva os valores com <code>return</code>.</p>
+<h3>Passo 3 · Monte o menu</h3>
+<pre class="output">1 - Cadastrar aluno
+2 - Listar alunos
+3 - Buscar matrícula
+4 - Resumir turma
+0 - Sair</pre>
+<ol><li>Comece com <code>alunos = []</code> dentro de <code>main()</code> e mantenha o menu em um <code>while</code>.</li><li>No cadastro, peça matrícula, nome e duas notas válidas. Confira duplicidade antes de pedir as notas. Se uma regra recusar o cadastro com <code>ValueError</code>, apresente a mensagem e mantenha o menu.</li><li>Na listagem, mostre matrícula, nome, média e situação. Informe quando a turma estiver vazia.</li><li>Na busca, apresente o registro encontrado ou “Aluno não encontrado”.</li><li>No resumo, apresente total, quantidade com notas e média geral. Para média <code>None</code>, apresente “Sem dados”.</li><li>Encerre somente ao selecionar <code>0</code> durante o uso normal. Use <code>if __name__ == "__main__":</code> para chamar <code>main()</code>.</li></ol>
+<p class="note">Este menu cadastra duas notas por aluno. Para conferir a regra de aluno sem notas, crie esse registro em <code>conferir.py</code>. Os dados ficam na memória; fechar o programa apaga os cadastros. Não é necessário tratar Ctrl+C ou fim da entrada nesta prática.</p>
+<h3>Passo 4 · Execute o roteiro de aceitação</h3>
+<ol><li>Antes de cadastrar, liste e peça o resumo: você deve receber as mensagens de ausência de dados.</li><li>Digite uma opção inválida e depois <code>1</code>: o programa deve pedir novamente e continuar.</li><li>Cadastre Ana, matrícula <code>001</code>, notas <code>8</code> e <code>9</code>. Na primeira tentativa de nota, digite <code>oito</code> para verificar a recuperação.</li><li>Tente cadastrar novamente <code>001</code>: o total deve continuar em 1.</li><li>Cadastre Bruno, matrícula <code>002</code>, notas <code>6</code> e <code>7</code>. Antes da nota válida, tente <code>-1</code> e <code>11</code>.</li><li>Liste: Ana deve ter média <code>8.50</code> e estar aprovada; Bruno, média <code>6.50</code> e estar em recuperação.</li><li>Peça o resumo: total <code>2</code>, com notas <code>2</code>, média geral <code>7.50</code>.</li><li>Busque <code>999</code> e depois <code>002</code>: primeiro ausência; depois Bruno.</li><li>Saia com <code>0</code>. Execute as conferências sem depender do menu.</li></ol></section><section id="referencia"><h2>07 · Consulte a solução depois de tentar</h2><details><summary>Abrir gabarito comentado e arquivos Python</summary><p>Tente implementar antes de consultar. Os arquivos abaixo formam uma solução completa e podem ser salvos juntos em uma pasta. Para executar a referência diretamente, abra o terminal em <code>aula-pratica-3/referencia</code> e use <code>python main.py</code> ou <code>python conferir.py</code>.</p><h3>validacoes.py</h3><p><a href="referencia/validacoes.py" download>Baixar validacoes.py</a></p><pre><code class="language-python">&quot;&quot;&quot;Entrada de dados no terminal, com novas tentativas quando necessário.&quot;&quot;&quot;
+
+import math
+
+
+def ler_texto(mensagem):
+    &quot;&quot;&quot;Solicita texto até receber pelo menos um caractere não branco.&quot;&quot;&quot;
+    while True:
+        texto = input(mensagem).strip()
+        if texto:
+            return texto
+        print(&quot;O texto não pode ficar vazio.&quot;)
+
+
+def ler_nota(mensagem):
+    &quot;&quot;&quot;Solicita uma nota finita entre zero e dez; aceita vírgula decimal.&quot;&quot;&quot;
+    while True:
+        entrada = input(mensagem).strip().replace(&quot;,&quot;, &quot;.&quot;)
+        try:
+            nota = float(entrada)
+        except ValueError:
+            print(&quot;Digite um número, por exemplo 7.5 ou 7,5.&quot;)
+            continue
+        if not math.isfinite(nota) or not 0 &lt;= nota &lt;= 10:
+            print(&quot;A nota deve estar entre 0 e 10.&quot;)
+            continue
+        return nota
+
+
+def ler_opcao():
+    &quot;&quot;&quot;Solicita uma das opções disponíveis no menu.&quot;&quot;&quot;
+    while True:
+        opcao = input(&quot;Escolha: &quot;).strip()
+        if opcao in (&quot;0&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;):
+            return opcao
+        print(&quot;Opção inválida. Escolha 0, 1, 2, 3 ou 4.&quot;)</code></pre><h3>turma.py</h3><p><a href="referencia/turma.py" download>Baixar turma.py</a></p><pre><code class="language-python">&quot;&quot;&quot;Regras da turma, independentes do teclado e da apresentação.&quot;&quot;&quot;
+
+import math
+
+
+def calcular_media(notas):
+    &quot;&quot;&quot;Devolve a média ou None quando não há notas.
+
+    Notas devem ser números finitos entre 0 e 10; caso contrário,
+    a função sinaliza ValueError. A coleção recebida não é alterada.
+    &quot;&quot;&quot;
+    if not notas:
+        return None
+    for nota in notas:
+        if isinstance(nota, bool) or not isinstance(nota, (int, float)):
+            raise ValueError(&quot;Cada nota deve ser um número entre 0 e 10.&quot;)
+        if not math.isfinite(nota) or not 0 &lt;= nota &lt;= 10:
+            raise ValueError(&quot;Cada nota deve ser um número entre 0 e 10.&quot;)
+    return sum(notas) / len(notas)
+
+
+def definir_situacao(media):
+    &quot;&quot;&quot;Recebe média válida ou None e devolve a situação acadêmica.&quot;&quot;&quot;
+    if media is None:
+        return &quot;Sem notas&quot;
+    if media &gt;= 7:
+        return &quot;Aprovado&quot;
+    if media &gt;= 4:
+        return &quot;Recuperação&quot;
+    return &quot;Reprovado&quot;
+
+
+def buscar_aluno(alunos, matricula):
+    &quot;&quot;&quot;Devolve o registro encontrado, ou None quando ausente.&quot;&quot;&quot;
+    for aluno in alunos:
+        if aluno[&quot;matricula&quot;] == matricula:
+            return aluno
+    return None
+
+
+def cadastrar_aluno(alunos, matricula, nome, notas):
+    &quot;&quot;&quot;Adiciona um novo registro válido ou sinaliza ValueError.
+
+    Matrícula e nome devem ser strings. Matrícula é única após strip().
+    A lista de notas é copiada antes de ser armazenada.
+    &quot;&quot;&quot;
+    matricula = matricula.strip()
+    nome = nome.strip()
+    if not matricula or not nome:
+        raise ValueError(&quot;Matrícula e nome são obrigatórios.&quot;)
+    if buscar_aluno(alunos, matricula) is not None:
+        raise ValueError(&quot;Matrícula já cadastrada.&quot;)
+    calcular_media(notas)
+    aluno = {&quot;matricula&quot;: matricula, &quot;nome&quot;: nome, &quot;notas&quot;: list(notas)}
+    alunos.append(aluno)
+    return aluno
+
+
+def resumir_turma(alunos):
+    &quot;&quot;&quot;Conta todos os alunos e calcula a média apenas dos que têm notas.&quot;&quot;&quot;
+    medias = []
+    for aluno in alunos:
+        media = calcular_media(aluno[&quot;notas&quot;])
+        if media is not None:
+            medias.append(media)
+    return {
+        &quot;total&quot;: len(alunos),
+        &quot;com_notas&quot;: len(medias),
+        &quot;media_geral&quot;: calcular_media(medias),
+    }</code></pre><h3>main.py</h3><p><a href="referencia/main.py" download>Baixar main.py</a></p><pre><code class="language-python">&quot;&quot;&quot;Menu interativo do sistema acadêmico da prática 3.&quot;&quot;&quot;
+
+from turma import (
+    buscar_aluno, cadastrar_aluno, calcular_media,
+    definir_situacao, resumir_turma,
+)
+from validacoes import ler_nota, ler_opcao, ler_texto
+
+
+def exibir_aluno(aluno):
+    &quot;&quot;&quot;Apresenta um registro, inclusive quando ainda não possui notas.&quot;&quot;&quot;
+    media = calcular_media(aluno[&quot;notas&quot;])
+    media_exibida = &quot;Sem notas&quot; if media is None else f&quot;{media:.2f}&quot;
+    print(f&quot;{aluno[&#x27;matricula&#x27;]} | {aluno[&#x27;nome&#x27;]} | &quot;
+          f&quot;{media_exibida} | {definir_situacao(media)}&quot;)
+
+
+def main():
+    &quot;&quot;&quot;Executa o menu até a escolha de sair; dados ficam na memória.&quot;&quot;&quot;
+    alunos = []
+    while True:
+        print(&quot;\n=== SISTEMA ACADÊMICO ===&quot;)
+        print(&quot;1 - Cadastrar aluno&quot;)
+        print(&quot;2 - Listar alunos&quot;)
+        print(&quot;3 - Buscar matrícula&quot;)
+        print(&quot;4 - Resumir turma&quot;)
+        print(&quot;0 - Sair&quot;)
+        opcao = ler_opcao()
+
+        if opcao == &quot;0&quot;:
+            print(&quot;Programa encerrado.&quot;)
+            break
+        if opcao == &quot;1&quot;:
+            matricula = ler_texto(&quot;Matrícula: &quot;)
+            if buscar_aluno(alunos, matricula) is not None:
+                print(&quot;Matrícula já cadastrada.&quot;)
+                continue
+            nome = ler_texto(&quot;Nome: &quot;)
+            notas = [ler_nota(&quot;Nota 1: &quot;), ler_nota(&quot;Nota 2: &quot;)]
+            try:
+                cadastrar_aluno(alunos, matricula, nome, notas)
+            except ValueError as erro:
+                print(f&quot;Cadastro recusado: {erro}&quot;)
+            else:
+                print(&quot;Aluno cadastrado.&quot;)
+        elif opcao == &quot;2&quot;:
+            if not alunos:
+                print(&quot;Nenhum aluno cadastrado.&quot;)
+            for aluno in alunos:
+                exibir_aluno(aluno)
+        elif opcao == &quot;3&quot;:
+            matricula = ler_texto(&quot;Matrícula a buscar: &quot;)
+            aluno = buscar_aluno(alunos, matricula)
+            if aluno is None:
+                print(&quot;Aluno não encontrado.&quot;)
+            else:
+                exibir_aluno(aluno)
+        elif opcao == &quot;4&quot;:
+            resumo = resumir_turma(alunos)
+            print(f&quot;Total: {resumo[&#x27;total&#x27;]} | Com notas: {resumo[&#x27;com_notas&#x27;]}&quot;)
+            if resumo[&quot;media_geral&quot;] is None:
+                print(&quot;Média geral: Sem dados&quot;)
+            else:
+                print(f&quot;Média geral: {resumo[&#x27;media_geral&#x27;]:.2f}&quot;)
+
+
+if __name__ == &quot;__main__&quot;:
+    main()</code></pre><h3>conferir.py</h3><p><a href="referencia/conferir.py" download>Baixar conferir.py</a></p><pre><code class="language-python">&quot;&quot;&quot;Conferências de regras e limites. Execute com python conferir.py.&quot;&quot;&quot;
+
+from turma import (
+    buscar_aluno, cadastrar_aluno, calcular_media,
+    definir_situacao, resumir_turma,
+)
+
+
+def conferir():
+    assert calcular_media([8, 6]) == 7
+    assert calcular_media([0, 0]) == 0
+    assert calcular_media([10, 10]) == 10
+    assert calcular_media([]) is None
+    assert definir_situacao(None) == &quot;Sem notas&quot;
+    for media, esperado in [(3.9, &quot;Reprovado&quot;), (4, &quot;Recuperação&quot;),
+                             (6.9, &quot;Recuperação&quot;), (7, &quot;Aprovado&quot;)]:
+        assert definir_situacao(media) == esperado
+
+    for notas in [[-1], [11], [&quot;sete&quot;], [float(&quot;nan&quot;)], [float(&quot;inf&quot;)], [True]]:
+        try:
+            calcular_media(notas)
+        except ValueError:
+            pass  # O erro é o resultado esperado neste caso de teste.
+        else:
+            raise AssertionError(f&quot;Notas inválidas aceitas: {notas}&quot;)
+
+    alunos = []
+    assert buscar_aluno(alunos, &quot;999&quot;) is None
+    assert resumir_turma(alunos) == {&quot;total&quot;: 0, &quot;com_notas&quot;: 0, &quot;media_geral&quot;: None}
+    notas = [8, 9]
+    cadastrar_aluno(alunos, &quot;001&quot;, &quot;Ana&quot;, notas)
+    notas.append(0)
+    assert alunos[0][&quot;notas&quot;] == [8, 9]
+    cadastrar_aluno(alunos, &quot;002&quot;, &quot;Bruno&quot;, [6, 7])
+    cadastrar_aluno(alunos, &quot;003&quot;, &quot;Carla&quot;, [])
+    assert buscar_aluno(alunos, &quot;002&quot;)[&quot;nome&quot;] == &quot;Bruno&quot;
+    assert resumir_turma(alunos) == {&quot;total&quot;: 3, &quot;com_notas&quot;: 2, &quot;media_geral&quot;: 7.5}
+    assert resumir_turma([alunos[2]])[&quot;media_geral&quot;] is None
+
+    for matricula, nome, notas in [(&quot; 001 &quot;, &quot;Outra Ana&quot;, [7, 7]),
+                                    (&quot;&quot;, &quot;Eva&quot;, [7, 7]),
+                                    (&quot;004&quot;, &quot;  &quot;, [7, 7]),
+                                    (&quot;004&quot;, &quot;Eva&quot;, [11, 7])]:
+        antes = len(alunos)
+        try:
+            cadastrar_aluno(alunos, matricula, nome, notas)
+        except ValueError:
+            assert len(alunos) == antes
+        else:
+            raise AssertionError(&quot;Cadastro inválido foi aceito.&quot;)
+    print(&quot;Conferências concluídas.&quot;)
+
+
+if __name__ == &quot;__main__&quot;:
+    conferir()</code></pre></details><p>A referência inclui conferências de cadastro recusado, turma sem notas, limites de aprovação e preservação da lista após falhas. O <code>pass</code> no teste de exceção indica que a falha era esperada naquele teste; não é uma orientação para esconder falhas no programa.</p></section><section id="entrega"><h2>08 · Explique e entregue</h2>
+<h3>Checklist do aluno</h3><ul><li>Consigo ler a última linha do traceback e localizar a operação que falhou.</li><li>Distingo erro de conversão de violação de uma regra.</li><li>As entradas inválidas permitem nova tentativa.</li><li>Os cadastros recusados não alteram a turma.</li><li>Média zero e ausência de notas têm tratamentos diferentes.</li><li>Turma vazia e busca sem resultado produzem mensagens claras.</li><li>Executei as conferências e o roteiro manual do menu.</li><li>As regras estão separadas das entradas e da apresentação.</li></ul>
+<p>Entregue sua pasta com os seis arquivos indicados no desafio. Em <code>respostas.md</code>, inclua as respostas das atividades, o registro dos três defeitos investigados e uma tabela com entrada, resultado esperado e resultado obtido dos casos que você conferiu.</p>
+<h3>Como demonstrar domínio</h3><p>Apresente um cadastro válido, uma entrada inválida que permite nova tentativa e uma conferência automática. Explique onde a falha é detectada, qual função devolve o resultado e por que o programa pode continuar. Código funcionando e explicação coerente devem acompanhar a entrega.</p>
+<h3>Se terminar antes</h3><p>Adicione uma opção para cadastrar um aluno sem notas e outra para lançar suas notas depois. Verifique se o resumo passa a considerá-lo somente após receber notas. Crie um teste de regressão para essa mudança.</p>
+<h3>Próxima evolução</h3><p>Com essa prática consolidada, o sistema já reúne lógica, coleções, funções, módulos, validação e testes básicos. A próxima evolução pode ser persistência com arquivos e JSON, para guardar os dados entre execuções.</p></section><footer>Aula prática 3 · Fundamentos de programação com Python · Os exemplos são executados no editor ou terminal.</footer></main></div></body></html>
